@@ -13,9 +13,9 @@ public class ConsoleInput implements Input {
     public int askInt(String msg, int minInt, int maxInt) {
         int number;
         do {
-            System.out.println(msg);
+            System.out.printf("%s [%d-%d]:%n", msg, minInt, maxInt);
             while (!scanner.hasNextInt()) {
-                System.out.println("Ошибка! Введите число.");
+                System.out.println("Ошибка! Введите цифры.");
                 scanner.next();
             }
             number = scanner.nextInt();
