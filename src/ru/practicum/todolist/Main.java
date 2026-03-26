@@ -99,38 +99,48 @@ public class Main {
     }
 
     private static void editAction() {
-        int no;
-        int size = todoList.getSize();
-        if (size == 0) {
+        int id;
+        if (todoList.isEmpty()) {
             System.out.println("Задач нет");
             return;
         }
         do {
-            System.out.println("Введите номер с 0 по " + (size - 1));
-            no = input.nextInt();
-        } while (no < 0 || no >= size);
-        Task task = todoList.find(no);
+            System.out.println("Введите номер больше 0");
+            id = input.nextInt();
+            input.nextLine();
+        } while (id <= 0);
+
         System.out.println("Введите название задачи:");
-        task.setName(input.nextLine());
+        String name = input.nextLine();
         System.out.println("Введите приоритет (число)");
-        task.setPriority(input.nextInt());
+        int priority = input.nextInt();
         input.nextLine();
-        todoList.update(no, task);
+        todoList.find(id).ifPresentOrElse(
+                (task) -> {
+                    task.setName(name);
+                    task.setPriority(priority);
+                    todoList.update(task);
+                },
+                () -> System.out.println("Задача не найдена")
+        );
     }
 
     private static void deleteAction() {
-        int size = todoList.getSize();
-        if (size == 0) {
+        int id;
+        if (todoList.isEmpty()) {
             System.out.println("Задач нет");
             return;
         }
-        int no;
         do {
-            System.out.println("Введите номер с 0 по " + (size - 1));
-            no = input.nextInt();
-        } while (no < 0 || no >= size);
+            System.out.println("Введите номер больше 0");
+            id = input.nextInt();
+        } while (id <= 0);
         input.nextLine();
-        todoList.delete(no);
+        if (todoList.delete(id)) {
+            System.out.println("Задача удалена успешно.");
+        } else {
+            System.out.println("Ошибка удаления задачи.");
+        }
     }
 
     private static void createAction() {

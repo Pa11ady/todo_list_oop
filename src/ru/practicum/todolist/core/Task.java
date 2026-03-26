@@ -49,6 +49,7 @@ public class Task {
         // Для IN_PROGRESS completedAt логично тоже сбрасывать, возможно опечатка в тз
     }
 
+
     @Override
     public String toString() {
         return "Task{" +
