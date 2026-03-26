@@ -1,5 +1,6 @@
 package ru.practicum.todolist;
 
+import ru.practicum.todolist.core.Status;
 import ru.practicum.todolist.core.Task;
 import ru.practicum.todolist.core.TodoList;
 import ru.practicum.todolist.io.ConsoleInput;
@@ -87,12 +88,40 @@ public class Main {
     }
 
     private static void changeStatusAction() {
+        if (todoList.isEmpty()) {
+            out.println("Задач нет");
+            return;
+        }
+        int id = input.askInt("Введите номер задачи", 1, Short.MAX_VALUE);
+        String menuText = getStatusText();
+        int code = input.askInt(menuText, 0, Status.values().length - 1);
+        todoList.find(id).ifPresentOrElse(
+                (task) -> {
+                    task.setStatus(Status.fromCode(code));
+                    out.println("Статус задачи изменен.");
+                },
+                () -> out.println("Задача не найдена.")
+        );
     }
 
     private static void findByKeywordAction() {
     }
 
     private static void filterByStatusAction() {
+        if (todoList.isEmpty()) {
+            out.println("Задач нет");
+            return;
+        }
+        String menuText = getStatusText();
+        int code = input.askInt(menuText, 0, Status.values().length - 1);
+        Status status = Status.fromCode(code);
+        out.println("Введите диапазон приоритетов [1 - 10]");
+        int minPriority = input.askInt("Минимальный приоритет", 1, 10);
+        int maxPriority = input.askInt("Максимальный приоритет", minPriority, 10);
+        todoList.findAll().stream()
+                .filter(x -> x.getStatus().equals(status) && minPriority <=x.getPriority()
+                && x.getPriority() <= maxPriority)
+                .forEach(out::println);
     }
 
     private static void showAllAction() {
@@ -109,7 +138,7 @@ public class Main {
             return;
         }
 
-        id = input.askInt("Введите номер ", 1, Short.MAX_VALUE);
+        id = input.askInt("Введите номер задачи", 1, Short.MAX_VALUE);
         String name = input.askStr("Введите название задачи:");
         int priority = input.askInt("Введите приоритет (число)",1,10);
         todoList.find(id).ifPresentOrElse(
@@ -128,7 +157,7 @@ public class Main {
             out.println("Задач нет");
             return;
         }
-        int id = input.askInt("Введите номер ", 1, Short.MAX_VALUE);
+        int id = input.askInt("Введите номер задачи", 1, Short.MAX_VALUE);
         if (todoList.delete(id)) {
             out.println("Задача удалена успешно.");
         } else {
@@ -140,5 +169,14 @@ public class Main {
         String name = input.askStr("Введите название задачи:");
         int priority = input.askInt("Введите приоритет (число)",1,10);
         todoList.add(new Task(name, priority));
+    }
+
+    private static String getStatusText() {
+        StringBuilder sb = new StringBuilder("Выберите статус:\n");
+        for (Status s : Status.values()) {
+            sb.append(s.getCode()).append(". ").append(s.getName()).append("\n");
+        }
+        sb.append("Введите число");
+        return sb.toString();
     }
 }

@@ -39,6 +39,10 @@ public class Task {
         this.priority = priority;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
         if (status == Status.COMPLETED) {
@@ -48,6 +52,7 @@ public class Task {
         }
         // Для IN_PROGRESS completedAt логично тоже сбрасывать, возможно опечатка в тз
     }
+
 
 
     @Override
