@@ -28,7 +28,6 @@ public class Main {
     static Input input;
     static Output out = new ConsoleOutput();
 
-
     public static void main(String[] args) {
         out.println("""
                 Добро пожаловать в приложение "Управление списком задач"!
@@ -96,7 +95,7 @@ public class Main {
         String menuText = getStatusText();
         int code = input.askInt(menuText, 0, Status.values().length - 1);
         todoList.find(id).ifPresentOrElse(
-                (task) -> {
+                task -> {
                     task.setStatus(Status.fromCode(code));
                     out.println("Статус задачи изменен.");
                 },
@@ -105,6 +104,17 @@ public class Main {
     }
 
     private static void findByKeywordAction() {
+        if (todoList.isEmpty()) {
+            out.println("Задач нет");
+            return;
+        }
+        String word = input.askStr("Введите ключевое слово:");
+        List<Task> found = todoList.findByKeyword(word);
+        if (found.isEmpty()) {
+            out.println("По вашему запросу ничего не найдено");
+        } else {
+            found.forEach(out::println);
+        }
     }
 
     private static void filterByStatusAction() {
@@ -142,7 +152,7 @@ public class Main {
         String name = input.askStr("Введите название задачи:");
         int priority = input.askInt("Введите приоритет (число)",1,10);
         todoList.find(id).ifPresentOrElse(
-                (task) -> {
+                task -> {
                     task.setName(name);
                     task.setPriority(priority);
                     todoList.update(task);

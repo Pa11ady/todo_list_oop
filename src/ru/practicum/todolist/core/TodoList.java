@@ -48,4 +48,10 @@ public class TodoList {
     public boolean isEmpty() {
         return tasks.isEmpty();
     }
+
+    public List<Task> findByKeyword(String word) {
+        return tasks.stream()
+                .filter(x -> x.getName().toLowerCase().contains(word.toLowerCase()))
+                .toList();
+    }
 }

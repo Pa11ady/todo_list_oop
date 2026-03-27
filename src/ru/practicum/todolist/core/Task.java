@@ -1,6 +1,7 @@
 package ru.practicum.todolist.core;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
     private int id = 0;
@@ -53,17 +54,19 @@ public class Task {
         // Для IN_PROGRESS completedAt логично тоже сбрасывать, возможно опечатка в тз
     }
 
-
-
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", priority=" + priority +
-                ", status=" + status +
-                ", created=" + created +
-                ", completedAt=" + completedAt +
-                '}';
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String completedStr = (completedAt != null)
+                ? completedAt.format(dateTimeFormatter)
+                : "Отсутствует";
+
+        return id + ". " + name +
+                " | Приоритет: " + priority +
+                " | Статус: " + status.getName() +
+                " | Дата создания: " + created.format(dateFormatter) +
+                " | Время выполнения: " + completedStr;
     }
 }
