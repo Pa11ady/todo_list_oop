@@ -26,7 +26,7 @@ public abstract class AbstractAction implements UserAction {
     @Override
     public boolean execute() {
         if(!checkBefore()) {
-            return false;
+            return true;
         }
         doAction();
         return true;
