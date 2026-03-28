@@ -13,7 +13,7 @@ public class ChangeStatusAction extends AbstractAction {
     @Override
     protected void doAction() {
         int id = input.askInt("Введите номер задачи", 1, Short.MAX_VALUE);
-        String menuText = getStatusText();
+        String menuText = getMenuStatusText();
         int code = input.askInt(menuText, 0, Status.values().length - 1);
         todoList.find(id).ifPresentOrElse(
                 task -> {

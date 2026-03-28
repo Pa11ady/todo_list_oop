@@ -8,6 +8,7 @@ public class Task {
     private String name;
     private int priority;
     private Status status = Status.UNCOMPLETED;
+    //created логично тоже LocalDateTime чтобы можно было узнать продолжительность в часах
     private final LocalDateTime created = LocalDateTime.now();
     private LocalDateTime completedAt;
 

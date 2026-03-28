@@ -41,7 +41,7 @@ public abstract class AbstractAction implements UserAction {
     }
     abstract protected void doAction();
 
-    public static String getStatusText() {
+    protected static String getMenuStatusText() {
         StringBuilder sb = new StringBuilder("Выберите статус:\n");
         for (Status s : Status.values()) {
             sb.append(s.getCode()).append(". ").append(s.getName()).append("\n");

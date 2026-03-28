@@ -12,7 +12,7 @@ public class FilterByStatusAction extends AbstractAction {
 
     @Override
     protected void doAction() {
-        String menuText = getStatusText();
+        String menuText = getMenuStatusText();
         int code = input.askInt(menuText, 0, Status.values().length - 1);
         Status status = Status.fromCode(code);
         out.println("Введите диапазон приоритетов [1 - 10]");
