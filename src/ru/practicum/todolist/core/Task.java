@@ -55,6 +55,10 @@ public class Task {
         // Для IN_PROGRESS completedAt логично тоже сбрасывать, возможно опечатка в тз
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

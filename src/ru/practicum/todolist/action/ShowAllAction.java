@@ -5,7 +5,7 @@ import ru.practicum.todolist.core.TodoList;
 import ru.practicum.todolist.io.Input;
 import ru.practicum.todolist.io.Output;
 
-import java.util.List;
+import java.util.Comparator;
 
 public class ShowAllAction extends AbstractAction {
     public ShowAllAction(String name, TodoList todoList, Input input, Output out) {
@@ -14,9 +14,19 @@ public class ShowAllAction extends AbstractAction {
 
     @Override
     protected void doAction() {
-        List<Task> tasks = todoList.findAll();
-        for (Task task : tasks) {
-            out.println(task);
+        out.println("Выберите сортировку для задач");
+        String menuText = """
+                1. Сортировка по приоритету (по убыванию)
+                2. Сортировкой по дате создания.
+                Введите число""";
+        int code = input.askInt(menuText, 1, 2);
+        switch (code) {
+            case 1 -> todoList.findAll().stream()
+                    .sorted(Comparator.comparing(Task::getPriority).reversed())
+                    .forEach(out::println);
+            case 2 -> todoList.findAll().stream()
+                    .sorted(Comparator.comparing(Task::getCreated))
+                    .forEach(out::println);
         }
     }
 }

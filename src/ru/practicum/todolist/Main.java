@@ -27,7 +27,7 @@ public class Main {
                 new DeleteAction("Удалить задачу", todoList, input, out),
                 new EditAction("Отредактировать задачу", todoList, input, out),
                 new ShowAllAction("Показать все задачи", todoList, input, out),
-                new FilterByStatusAction("Фильтровать задачи по статусу", todoList, input, out),
+                new FilterAction("Фильтровать задачи", todoList, input, out),
                 new FindByKeywordAction("Найти задачи по ключевому слову", todoList, input, out),
                 new ChangeStatusAction("Изменить статус задачи", todoList, input, out),
                 new ShowStatisticsAction("Показать статистику", todoList, input, out),
