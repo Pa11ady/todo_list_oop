@@ -1,6 +1,5 @@
 package ru.practicum.todolist.action;
 
-import ru.practicum.todolist.core.Task;
 import ru.practicum.todolist.core.TodoList;
 import ru.practicum.todolist.io.Input;
 import ru.practicum.todolist.io.Output;
@@ -13,10 +12,11 @@ public class DeleteAction extends AbstractAction {
     @Override
     protected void doAction() {
         int id = input.askInt("Введите номер задачи", 1, Short.MAX_VALUE);
-        if (todoList.delete(id)) {
+        try {
+            todoList.delete(id);
             out.println("Задача удалена успешно.");
-        } else {
-            out.println("Ошибка удаления задачи.");
+        } catch (Exception e) {
+            out.println(e.getMessage());
         }
     }
 }

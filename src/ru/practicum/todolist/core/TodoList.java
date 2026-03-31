@@ -1,5 +1,7 @@
 package ru.practicum.todolist.core;
 
+import ru.practicum.todolist.exception.TaskDeleteException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,10 @@ public class TodoList {
         return task;
     }
 
-    public boolean delete(int id) {
-        return tasks.removeIf(task -> task.getId() == id);
+    public void delete(int id) {
+        if (!tasks.removeIf(task -> task.getId() == id)) {
+            throw new TaskDeleteException("Не удалось удалить задачу id = " + id);
+        }
     }
 
     public Optional<Task> update(Task task) {
