@@ -1,15 +1,12 @@
 package ru.practicum.todolist.action;
 
-import ru.practicum.todolist.core.Task;
-import ru.practicum.todolist.core.TodoList;
+import ru.practicum.todolist.core.service.TaskService;
 import ru.practicum.todolist.io.Input;
 import ru.practicum.todolist.io.Output;
 
-import java.util.Comparator;
-
 public class ShowAllAction extends AbstractAction {
-    public ShowAllAction(String name, TodoList todoList, Input input, Output out) {
-        super(name, todoList, input, out);
+    public ShowAllAction(String name, TaskService taskRepository, Input input, Output out) {
+        super(name, taskRepository, input, out);
     }
 
     @Override
@@ -21,11 +18,9 @@ public class ShowAllAction extends AbstractAction {
                 Введите число""";
         int code = input.askInt(menuText, 1, 2);
         switch (code) {
-            case 1 -> todoList.findAll().stream()
-                    .sorted(Comparator.comparing(Task::getPriority).reversed())
+            case 1 ->taskService.findAllSortByPriority()
                     .forEach(out::println);
-            case 2 -> todoList.findAll().stream()
-                    .sorted(Comparator.comparing(Task::getCreated))
+            case 2 -> taskService.findAllSortByCreated()
                     .forEach(out::println);
         }
     }

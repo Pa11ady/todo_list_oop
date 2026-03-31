@@ -1,19 +1,19 @@
 package ru.practicum.todolist.action;
 
-import ru.practicum.todolist.core.Status;
-import ru.practicum.todolist.core.TodoList;
+import ru.practicum.todolist.core.entity.Status;
+import ru.practicum.todolist.core.service.TaskService;
 import ru.practicum.todolist.io.Input;
 import ru.practicum.todolist.io.Output;
 
 public abstract class AbstractAction implements UserAction {
     private final String name;
-    protected final TodoList todoList;
+    protected final TaskService taskService;
     protected final Input input;
     protected final Output out;
 
-    public AbstractAction(String name, TodoList todoList, Input input, Output out) {
+    public AbstractAction(String name, TaskService taskService, Input input, Output out) {
         this.name = name;
-        this.todoList = todoList;
+        this.taskService = taskService;
         this.input = input;
         this.out = out;
     }
@@ -33,7 +33,7 @@ public abstract class AbstractAction implements UserAction {
     }
 
     protected boolean checkBefore() {
-        if (todoList.isEmpty()) {
+        if (!taskService.hasTasks()) {
             out.println("Задач нет");
             return false;
         }

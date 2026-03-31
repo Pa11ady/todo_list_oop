@@ -1,4 +1,4 @@
-package ru.practicum.todolist.core;
+package ru.practicum.todolist.core.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

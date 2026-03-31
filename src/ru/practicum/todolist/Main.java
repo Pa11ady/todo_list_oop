@@ -1,8 +1,9 @@
 package ru.practicum.todolist;
 
 import ru.practicum.todolist.action.*;
-import ru.practicum.todolist.core.Task;
-import ru.practicum.todolist.core.TodoList;
+import ru.practicum.todolist.core.entity.Task;
+import ru.practicum.todolist.core.repository.TaskRepository;
+import ru.practicum.todolist.core.service.TaskService;
 import ru.practicum.todolist.io.ConsoleInput;
 import ru.practicum.todolist.io.ConsoleOutput;
 import ru.practicum.todolist.io.Input;
@@ -13,8 +14,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        TodoList todoList = new TodoList();
-        initTestData(todoList);
+        TaskRepository taskRepository = new TaskRepository();
+        TaskService taskService = new TaskService(taskRepository);
+        initTestData(taskRepository);
         Scanner scanner = new Scanner(System.in);
         Input input = new ConsoleInput(scanner);
         Output out = new ConsoleOutput();
@@ -23,14 +25,14 @@ public class Main {
 
         int choice;
         List<UserAction> actions = List.of(
-                new CreateAction("Добавить задачу", todoList, input, out),
-                new DeleteAction("Удалить задачу", todoList, input, out),
-                new EditAction("Отредактировать задачу", todoList, input, out),
-                new ShowAllAction("Показать все задачи", todoList, input, out),
-                new FilterAction("Фильтровать задачи", todoList, input, out),
-                new FindByKeywordAction("Найти задачи по ключевому слову", todoList, input, out),
-                new ChangeStatusAction("Изменить статус задачи", todoList, input, out),
-                new ShowStatisticsAction("Показать статистику", todoList, input, out),
+                new CreateAction("Добавить задачу", taskService, input, out),
+                new DeleteAction("Удалить задачу", taskService, input, out),
+                new EditAction("Отредактировать задачу", taskService, input, out),
+                new ShowAllAction("Показать все задачи", taskService, input, out),
+                new FilterAction("Фильтровать задачи", taskService, input, out),
+                new FindByKeywordAction("Найти задачи по ключевому слову", taskService, input, out),
+                new ChangeStatusAction("Изменить статус задачи", taskService, input, out),
+                new ShowStatisticsAction("Показать статистику", taskService, input, out),
                 new ExitAction());
         do {
             printMenu(actions, out);
@@ -39,12 +41,12 @@ public class Main {
         scanner.close();
     }
 
-    private static void initTestData(TodoList todoList) {
-        todoList.add(new Task("aaa", 1));
-        todoList.add(new Task("bbb aaa", 2));
-        todoList.add(new Task("ccc", 3));
-        todoList.add(new Task("dddd", 4));
-        todoList.add(new Task("eee", 5));
+    private static void initTestData(TaskRepository taskRepository) {
+        taskRepository.create(new Task("aaa", 1));
+        taskRepository.create(new Task("bbb aaa", 2));
+        taskRepository.create(new Task("ccc", 3));
+        taskRepository.create(new Task("dddd", 4));
+        taskRepository.create(new Task("eee", 5));
     }
 
     private static void printMenu(List<UserAction> actions, Output out) {
